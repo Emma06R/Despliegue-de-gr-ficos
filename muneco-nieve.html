@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Muñeco de nieve que saluda · Dibujos con canvas y p5.js</title>
+  <meta name="description" content="Proyectos de Khan Academy adaptados a HTML, CSS y JavaScript con p5.js.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="logo" href="index.html">🎨 Dibujos con p5.js</a>
+      <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="rana.html">Rana</a></li>
+        <li><a href="dientes-conejo.html">Dientes de conejo</a></li>
+        <li><a href="cena.html">¿Qué hay de cena?</a></li>
+        <li><a href="dia-nevado.html">Día nevado</a></li>
+        <li><a href="muneco-nieve.html" aria-current="page">Muñeco de nieve</a></li>
+        <li><a href="canvas.html">Teoría: canvas</a></li>
+        <li><a href="p5.html">Teoría: p5.js</a></li>
+        <li><a href="dom-inspector.html">Inspector DOM</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <h1>Muñeco de nieve que saluda</h1>
+      <p>Un muñeco de nieve en contorno con dos brazos levantados que parecen saludar, sobre el suelo.</p>
+      <p class="muted">Proyecto original en Khan Academy: <a href="https://es.khanacademy.org/computer-programming/derivado-de-desafo-mueco-de-nieve-que-saluda/6410851293446144" target="_blank" rel="noopener">abrir el programa original</a>.
+      Aquí está adaptado a una página web estándar con <a href="p5.html">p5.js</a>.</p>
+
+      <figure class="lienzo-fig">
+        <div class="lienzo" id="lienzo" role="img" aria-label="Dibujo: Muñeco de nieve que saluda">
+          <noscript>Activa JavaScript para ver el dibujo.</noscript>
+        </div>
+        <figcaption>
+          <div class="controles">
+            <label><input type="checkbox" id="chk-grid"> Mostrar rejilla de coordenadas</label>
+            <button class="btn" id="btn-png" type="button">Guardar como PNG</button>
+            <span class="coords" id="coords" aria-live="off">x: –, y: –</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <h2>Código</h2>
+      <p>Este es el programa (archivo <code>sketches/muneco-nieve.js</code>). La función <code>dibujo()</code> contiene
+      los mismos comandos que escribí en Khan Academy; <code>js/lienzo.js</code> crea el lienzo de 400 × 400 y la llama.</p>
+<pre><code>// Muñeco de nieve que saluda (derivado de Khan Academy) — lienzo 400 x 400
+function dibujo() {
+  rect(0, 330, 400, 100);
+  ellipse(200, 300, 150, 150);
+  ellipse(200, 200, 100, 100);
+  ellipse(200, 120, 75, 75);
+  line(160, 200, 50, 50);
+  line(240, 200, 50, 50);
+}</code></pre>
+
+      <h2>Comandos que se usan</h2>
+      <table>
+        <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>line(x1, y1, x2, y2)</code></td><td>Los brazos: líneas que salen del cuerpo hacia arriba a la izquierda, ambas hasta el punto (50, 50).</td></tr>
+          <tr><td><code>ellipse(x, y, ancho, alto)</code></td><td>Tres círculos para el cuerpo.</td></tr>
+          <tr><td><code>rect(0, 330, 400, 100)</code></td><td>El suelo, solo con contorno.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Qué observar</h2>
+      <ul>
+      <li>Las coordenadas de <code>line()</code> son <em>dos puntos</em>: (x1, y1) y (x2, y2). Aquí los dos brazos terminan en el mismo punto (50, 50).</li>
+      <li>Activa la <strong>rejilla</strong> debajo del dibujo para ver en qué coordenadas empieza y termina cada brazo.</li>
+      </ul>
+
+<div class="pager"><a class="btn" href="dia-nevado.html">← Día nevado</a><a class="btn" href="canvas.html">Teoría: canvas →</a></div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Hecho por Josué Emmanuel Ramírez Cruz · HTML, CSS y JavaScript · Dibujos originales de Khan Academy adaptados con p5.js</p>
+    </div>
+  </footer>
+  <script src="js/p5.min.js"></script>
+  <script src="sketches/muneco-nieve.js"></script>
+  <script src="js/lienzo.js"></script>
+</body>
+</html>

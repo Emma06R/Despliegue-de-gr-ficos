@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dientes de conejo · Dibujos con canvas y p5.js</title>
+  <meta name="description" content="Proyectos de Khan Academy adaptados a HTML, CSS y JavaScript con p5.js.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="logo" href="index.html">🎨 Dibujos con p5.js</a>
+      <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="rana.html">Rana</a></li>
+        <li><a href="dientes-conejo.html" aria-current="page">Dientes de conejo</a></li>
+        <li><a href="cena.html">¿Qué hay de cena?</a></li>
+        <li><a href="dia-nevado.html">Día nevado</a></li>
+        <li><a href="muneco-nieve.html">Muñeco de nieve</a></li>
+        <li><a href="canvas.html">Teoría: canvas</a></li>
+        <li><a href="p5.html">Teoría: p5.js</a></li>
+        <li><a href="dom-inspector.html">Inspector DOM</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <h1>Dientes de conejo</h1>
+      <p>Un conejo con orejas largas, cara redonda, ojos negros, boca y dos dientes grandes dibujados solo con contorno.</p>
+      <p class="muted">Proyecto original en Khan Academy: <a href="https://es.khanacademy.org/computer-programming/derivado-de-desafo-dientes-de-conejo/4845496641110016" target="_blank" rel="noopener">abrir el programa original</a>.
+      Aquí está adaptado a una página web estándar con <a href="p5.html">p5.js</a>.</p>
+
+      <figure class="lienzo-fig">
+        <div class="lienzo" id="lienzo" role="img" aria-label="Dibujo: Dientes de conejo">
+          <noscript>Activa JavaScript para ver el dibujo.</noscript>
+        </div>
+        <figcaption>
+          <div class="controles">
+            <label><input type="checkbox" id="chk-grid"> Mostrar rejilla de coordenadas</label>
+            <button class="btn" id="btn-png" type="button">Guardar como PNG</button>
+            <span class="coords" id="coords" aria-live="off">x: –, y: –</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <h2>Código</h2>
+      <p>Este es el programa (archivo <code>sketches/dientes-conejo.js</code>). La función <code>dibujo()</code> contiene
+      los mismos comandos que escribí en Khan Academy; <code>js/lienzo.js</code> crea el lienzo de 400 × 400 y la llama.</p>
+<pre><code>// Dientes de conejo (derivado de Khan Academy) — lienzo 400 x 400
+function dibujo() {
+  var eyeSize = 20;
+  var toothLenght = 30;
+  ellipse(150, 70, 60, 120); // left ear
+  ellipse(240, 70, 60, 120); // right ear
+
+  ellipse(200, 170, 150, 150); // face
+
+  fill(0, 0, 0);
+  ellipse(170, 150, eyeSize, eyeSize); // left eye
+  ellipse(230, 150, eyeSize, eyeSize); // right eye
+
+  line(150, 200, 250, 200); // mouth
+
+  noFill();
+  rect(185, 200, 15, toothLenght); // left tooth
+  rect(200, 200, 15, toothLenght); // right tooth
+}</code></pre>
+
+      <h2>Comandos que se usan</h2>
+      <table>
+        <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>var nombre = valor</code></td><td>Declara una variable. Aquí <code>eyeSize</code> y <code>toothLenght</code> controlan el tamaño de los ojos y el largo de los dientes.</td></tr>
+          <tr><td><code>ellipse(x, y, ancho, alto)</code></td><td>Orejas, cara y ojos.</td></tr>
+          <tr><td><code>line(x1, y1, x2, y2)</code></td><td>Línea recta entre dos puntos: la boca.</td></tr>
+          <tr><td><code>noFill()</code></td><td>Hace que las formas siguientes no tengan relleno, solo contorno: así se ven los dientes.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Qué observar</h2>
+      <ul>
+      <li>Cambiando <code>eyeSize</code> o <code>toothLenght</code> en una sola línea se modifican los dos ojos o los dos dientes a la vez: ese es el beneficio de usar variables.</li>
+      <li>Las orejas y la cara se ven blancas porque todavía no se ha llamado a <code>fill()</code>: por defecto el relleno es blanco y el contorno negro. Los dientes usan <code>noFill()</code>, por eso solo se ve su contorno.</li>
+      </ul>
+
+<div class="pager"><a class="btn" href="rana.html">← Rana</a><a class="btn" href="cena.html">Cena →</a></div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Hecho por Josué Emmanuel Ramírez Cruz · HTML, CSS y JavaScript · Dibujos originales de Khan Academy adaptados con p5.js</p>
+    </div>
+  </footer>
+  <script src="js/p5.min.js"></script>
+  <script src="sketches/dientes-conejo.js"></script>
+  <script src="js/lienzo.js"></script>
+</body>
+</html>

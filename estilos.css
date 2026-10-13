@@ -1,0 +1,59 @@
+:root{--bg:#f7f8fb;--card:#fff;--ink:#1f2937;--muted:#6b7280;--brand:#2563eb;--brand2:#1e40af;--line:#e5e7eb}
+@media (prefers-color-scheme:dark){:root{--bg:#0f172a;--card:#1e293b;--ink:#e5e7eb;--muted:#9ca3af;--brand:#60a5fa;--brand2:#93c5fd;--line:#334155}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+header.site{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+header.site .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;padding-bottom:10px}
+.logo{font-weight:700;color:var(--brand);text-decoration:none;font-size:1.1rem}
+nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px}
+nav a{display:block;padding:6px 10px;border-radius:6px;color:var(--ink);text-decoration:none;font-size:.92rem}
+nav a:hover{background:var(--line)}
+nav a[aria-current="page"]{background:var(--brand);color:#fff}
+main{padding:24px 0 48px}
+main a{color:var(--brand)}
+main a.btn{color:#fff}
+.grid a.card{color:inherit}
+h1{margin-top:0}
+h2{margin-top:2rem;border-bottom:2px solid var(--line);padding-bottom:4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.grid a.card{text-decoration:none;color:inherit;display:block;transition:transform .15s}
+.grid a.card:hover{transform:translateY(-3px);border-color:var(--brand)}
+.grid h3{margin:.2rem 0;color:var(--brand)}
+.muted{color:var(--muted)}
+.lienzo{display:flex;justify-content:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;overflow:auto}
+code,pre{font-family:ui-monospace,Consolas,monospace}
+pre{background:#0b1220;color:#e2e8f0;padding:14px;border-radius:8px;overflow:auto;font-size:.85rem}
+:not(pre)>code{background:var(--line);padding:1px 5px;border-radius:4px}
+table{border-collapse:collapse;width:100%}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left}
+th{background:var(--line)}
+footer{border-top:1px solid var(--line);padding:16px 0;color:var(--muted);font-size:.85rem;text-align:center}
+.pager{display:flex;justify-content:space-between;margin-top:24px}
+.btn{display:inline-block;background:var(--brand);color:#fff;padding:8px 14px;border-radius:8px;text-decoration:none;border:0;cursor:pointer;font-size:.9rem}
+.btn:hover{background:var(--brand2)}
+/* Inspector DOM */
+.tree,.tree ul{list-style:none;margin:0;padding-left:22px;border-left:1px dashed var(--line)}
+.tree{border-left:0;padding-left:0}
+.node{display:inline-block;margin:3px 0;padding:2px 8px;border-radius:6px;font-family:ui-monospace,Consolas,monospace;font-size:.82rem;border:1px solid transparent;cursor:default}
+.node.el{background:#dbeafe;color:#1e3a8a;border-color:#93c5fd}
+.node.struct{background:#fef3c7;color:#78350f;border-color:#fcd34d}
+.node.sem{background:#dcfce7;color:#14532d;border-color:#86efac}
+.node.txt{background:transparent;color:var(--muted);font-style:italic;border-color:var(--line)}
+.node.cm{background:transparent;color:#9ca3af}
+.node .attrs{opacity:.7}
+.toggle{cursor:pointer;user-select:none;margin-right:4px;color:var(--muted)}
+.leyenda span{margin-right:12px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.tabs button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:8px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+.hint{border-left:4px solid var(--brand);padding:8px 12px;background:var(--card);margin:12px 0}
+
+/* Páginas de dibujos */
+.lienzo-fig{margin:16px 0}
+.lienzo-fig figcaption{margin-top:8px}
+.controles{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center}
+.coords{font-family:ui-monospace,Consolas,monospace;font-size:.85rem;color:var(--muted);min-width:11ch}
+canvas{max-width:100%;height:auto}
+#arbol{overflow:auto}

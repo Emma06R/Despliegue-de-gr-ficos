@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inicio · Dibujos con canvas y p5.js</title>
+  <meta name="description" content="Proyectos de Khan Academy adaptados a HTML, CSS y JavaScript con p5.js.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="logo" href="index.html">🎨 Dibujos con p5.js</a>
+      <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html" aria-current="page">Inicio</a></li>
+        <li><a href="rana.html">Rana</a></li>
+        <li><a href="dientes-conejo.html">Dientes de conejo</a></li>
+        <li><a href="cena.html">¿Qué hay de cena?</a></li>
+        <li><a href="dia-nevado.html">Día nevado</a></li>
+        <li><a href="muneco-nieve.html">Muñeco de nieve</a></li>
+        <li><a href="canvas.html">Teoría: canvas</a></li>
+        <li><a href="p5.html">Teoría: p5.js</a></li>
+        <li><a href="dom-inspector.html">Inspector DOM</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <h1>Dibujos con canvas y p5.js</h1>
+      <p>Este sitio reúne cinco proyectos que hice en <strong>Khan Academy</strong> y que ahora funcionan como páginas web
+      normales, escritas con <strong>HTML, CSS y JavaScript</strong>. Cada dibujo se renderiza en un elemento
+      <code>&lt;canvas&gt;</code> con ayuda de la librería <strong>p5.js</strong>.</p>
+
+      <h2>Proyectos</h2>
+      <div class="grid">
+        <a class="card" href="rana.html">
+          <h3>1. Rana loca</h3>
+          <p class="muted">Una rana verde vista de frente: cara, cuencas de los ojos, ojos blancos con pupilas cuadradas y una boca negra.</p>
+        </a>
+        <a class="card" href="dientes-conejo.html">
+          <h3>2. Dientes de conejo</h3>
+          <p class="muted">Un conejo con orejas largas, cara redonda, ojos negros, boca y dos dientes grandes dibujados solo con contorno.</p>
+        </a>
+        <a class="card" href="cena.html">
+          <h3>3. ¿Qué hay de cena?</h3>
+          <p class="muted">Un plato rosa claro sobre un mantel gris con una porción de comida café, visto desde arriba.</p>
+        </a>
+        <a class="card" href="dia-nevado.html">
+          <h3>4. Día nevado soleado</h3>
+          <p class="muted">Un paisaje con cielo cian, suelo verde agua, un sol amarillo y un muñeco de nieve de tres bolas.</p>
+        </a>
+        <a class="card" href="muneco-nieve.html">
+          <h3>5. Muñeco de nieve que saluda</h3>
+          <p class="muted">Un muñeco de nieve en contorno con dos brazos levantados que parecen saludar, sobre el suelo.</p>
+        </a>
+      </div>
+
+      <h2>Teoría</h2>
+      <div class="grid">
+        <a class="card" href="canvas.html">
+          <h3>La etiqueta &lt;canvas&gt;</h3>
+          <p class="muted">Qué es, cómo se obtiene su contexto de renderizado 2D y cómo se dibuja y anima con JavaScript puro.</p>
+        </a>
+        <a class="card" href="p5.html">
+          <h3>Fundamentos de p5.js</h3>
+          <p class="muted">setup y draw, formas, color, interacción y cómo se adaptó el código de Khan Academy.</p>
+        </a>
+        <a class="card" href="dom-inspector.html">
+          <h3>Inspector del DOM</h3>
+          <p class="muted">Árbol visual de las etiquetas de cada página del sitio, desde &lt;html&gt; hasta los elementos hijos.</p>
+        </a>
+      </div>
+
+      <h2>Cómo está organizado el sitio</h2>
+<pre><code>sitio-web/
+├── index.html              página principal
+├── rana.html, dientes-conejo.html, cena.html,
+│   dia-nevado.html, muneco-nieve.html      los 5 dibujos
+├── canvas.html, p5.html    secciones teóricas
+├── dom-inspector.html      árbol del DOM de cada página
+├── css/estilos.css         estilos de todo el sitio
+├── js/                     p5.min.js, lienzo.js, demos e inspector
+└── sketches/               el código de cada dibujo</code></pre>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Hecho por Josué Emmanuel Ramírez Cruz · HTML, CSS y JavaScript · Dibujos originales de Khan Academy adaptados con p5.js</p>
+    </div>
+  </footer>
+
+</body>
+</html>

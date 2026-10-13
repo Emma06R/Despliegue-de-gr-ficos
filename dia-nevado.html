@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Día nevado soleado · Dibujos con canvas y p5.js</title>
+  <meta name="description" content="Proyectos de Khan Academy adaptados a HTML, CSS y JavaScript con p5.js.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="logo" href="index.html">🎨 Dibujos con p5.js</a>
+      <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="rana.html">Rana</a></li>
+        <li><a href="dientes-conejo.html">Dientes de conejo</a></li>
+        <li><a href="cena.html">¿Qué hay de cena?</a></li>
+        <li><a href="dia-nevado.html" aria-current="page">Día nevado</a></li>
+        <li><a href="muneco-nieve.html">Muñeco de nieve</a></li>
+        <li><a href="canvas.html">Teoría: canvas</a></li>
+        <li><a href="p5.html">Teoría: p5.js</a></li>
+        <li><a href="dom-inspector.html">Inspector DOM</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <h1>Día nevado soleado</h1>
+      <p>Un paisaje con cielo cian, suelo verde agua, un sol amarillo y un muñeco de nieve de tres bolas.</p>
+      <p class="muted">Proyecto original en Khan Academy: <a href="https://es.khanacademy.org/computer-programming/derivado-de-desafo-da-nevado-soleado/6285240126259200" target="_blank" rel="noopener">abrir el programa original</a>.
+      Aquí está adaptado a una página web estándar con <a href="p5.html">p5.js</a>.</p>
+
+      <figure class="lienzo-fig">
+        <div class="lienzo" id="lienzo" role="img" aria-label="Dibujo: Día nevado soleado">
+          <noscript>Activa JavaScript para ver el dibujo.</noscript>
+        </div>
+        <figcaption>
+          <div class="controles">
+            <label><input type="checkbox" id="chk-grid"> Mostrar rejilla de coordenadas</label>
+            <button class="btn" id="btn-png" type="button">Guardar como PNG</button>
+            <span class="coords" id="coords" aria-live="off">x: –, y: –</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <h2>Código</h2>
+      <p>Este es el programa (archivo <code>sketches/dia-nevado.js</code>). La función <code>dibujo()</code> contiene
+      los mismos comandos que escribí en Khan Academy; <code>js/lienzo.js</code> crea el lienzo de 400 × 400 y la llama.</p>
+<pre><code>// Día nevado soleado (derivado de Khan Academy) — lienzo 400 x 400
+function dibujo() {
+  // The ground
+  fill(133, 255, 233);
+  background(0, 255, 255);
+  rect(0, 300, 400, 100);
+
+  // The sun
+  fill(251, 255, 0);
+  ellipse(80, 64, 100, 100);
+
+  // The snowman
+  fill(245, 240, 240);
+  ellipse(200, 300, 150, 150);
+  ellipse(200, 200, 100, 100);
+  ellipse(200, 120, 75, 75);
+}</code></pre>
+
+      <h2>Comandos que se usan</h2>
+      <table>
+        <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>background(0, 255, 255)</code></td><td>Pinta el cielo cian.</td></tr>
+          <tr><td><code>fill(r, g, b)</code></td><td>Colores del suelo, del sol y de la nieve.</td></tr>
+          <tr><td><code>rect(0, 300, 400, 100)</code></td><td>El suelo: ocupa todo el ancho (400) desde y = 300.</td></tr>
+          <tr><td><code>ellipse(...)</code></td><td>Sol y tres bolas del muñeco (de 150, 100 y 75 px de diámetro).</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Qué observar</h2>
+      <ul>
+      <li>Aunque <code>fill()</code> se escribe <em>antes</em> que <code>background()</code>, el color de relleno no se pierde: <code>background()</code> pinta el fondo, pero el último <code>fill()</code> sigue activo para el rectángulo del suelo.</li>
+      <li>El muñeco se dibuja de abajo hacia arriba: la bola grande en y = 300, la mediana en y = 200 y la cabeza en y = 120.</li>
+      </ul>
+
+<div class="pager"><a class="btn" href="cena.html">← Cena</a><a class="btn" href="muneco-nieve.html">Muñeco →</a></div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Hecho por Josué Emmanuel Ramírez Cruz · HTML, CSS y JavaScript · Dibujos originales de Khan Academy adaptados con p5.js</p>
+    </div>
+  </footer>
+  <script src="js/p5.min.js"></script>
+  <script src="sketches/dia-nevado.js"></script>
+  <script src="js/lienzo.js"></script>
+</body>
+</html>

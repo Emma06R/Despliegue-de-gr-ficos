@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rana loca · Dibujos con canvas y p5.js</title>
+  <meta name="description" content="Proyectos de Khan Academy adaptados a HTML, CSS y JavaScript con p5.js.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="logo" href="index.html">🎨 Dibujos con p5.js</a>
+      <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="rana.html" aria-current="page">Rana</a></li>
+        <li><a href="dientes-conejo.html">Dientes de conejo</a></li>
+        <li><a href="cena.html">¿Qué hay de cena?</a></li>
+        <li><a href="dia-nevado.html">Día nevado</a></li>
+        <li><a href="muneco-nieve.html">Muñeco de nieve</a></li>
+        <li><a href="canvas.html">Teoría: canvas</a></li>
+        <li><a href="p5.html">Teoría: p5.js</a></li>
+        <li><a href="dom-inspector.html">Inspector DOM</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <h1>Rana loca</h1>
+      <p>Una rana verde vista de frente: cara, cuencas de los ojos, ojos blancos con pupilas cuadradas y una boca negra.</p>
+      <p class="muted">Proyecto original en Khan Academy: <a href="https://es.khanacademy.org/computer-programming/derivado-de-desafo-rana-loca/6140049511792640" target="_blank" rel="noopener">abrir el programa original</a>.
+      Aquí está adaptado a una página web estándar con <a href="p5.html">p5.js</a>.</p>
+
+      <figure class="lienzo-fig">
+        <div class="lienzo" id="lienzo" role="img" aria-label="Dibujo: Rana loca">
+          <noscript>Activa JavaScript para ver el dibujo.</noscript>
+        </div>
+        <figcaption>
+          <div class="controles">
+            <label><input type="checkbox" id="chk-grid"> Mostrar rejilla de coordenadas</label>
+            <button class="btn" id="btn-png" type="button">Guardar como PNG</button>
+            <span class="coords" id="coords" aria-live="off">x: –, y: –</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <h2>Código</h2>
+      <p>Este es el programa (archivo <code>sketches/rana.js</code>). La función <code>dibujo()</code> contiene
+      los mismos comandos que escribí en Khan Academy; <code>js/lienzo.js</code> crea el lienzo de 400 × 400 y la llama.</p>
+<pre><code>// Rana loca (derivado de Khan Academy) — lienzo 400 x 400
+function dibujo() {
+  var x = 200;
+  var y = 250;
+
+  noStroke();
+  fill(30, 204, 91); // a nice froggy green!
+
+  ellipse(x, y, 200, 100); // face
+  ellipse(x - 50, y - 50, 40, 40); // left eye socket
+  ellipse(x + 50, y - 50, 40, 40); // right eye socket
+
+  fill(255, 255, 255); // for the whites of the eyes!
+  ellipse(x - 50, y - 50, 30, 30); // left eyeball
+  ellipse(x + 50, y - 50, 30, 30); // right eyeball
+
+  fill(0, 0, 0);
+  ellipse(x, y, 100, 50);
+
+  rect(x - 55, y - 55, 10, 10);
+  rect(x + 45, y - 55, 10, 10);
+}</code></pre>
+
+      <h2>Comandos que se usan</h2>
+      <table>
+        <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+        <tbody>
+          <tr><td><code>noStroke()</code></td><td>Quita el contorno de las formas que se dibujen a partir de ese momento.</td></tr>
+          <tr><td><code>fill(r, g, b)</code></td><td>Define el color de relleno (0 a 255 por canal). Todo lo que se dibuje después usa ese color.</td></tr>
+          <tr><td><code>ellipse(x, y, ancho, alto)</code></td><td>Dibuja una elipse centrada en (x, y). Ancho y alto son diámetros.</td></tr>
+          <tr><td><code>rect(x, y, ancho, alto)</code></td><td>Dibuja un rectángulo; (x, y) es la esquina superior izquierda.</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Qué observar</h2>
+      <ul>
+      <li>Las variables <code>x</code> e <code>y</code> son el centro de la rana: si cambias sus valores, toda la rana se mueve porque cada forma se calcula a partir de ellas (<code>x - 50</code>, <code>y + 50</code>…).</li>
+      <li>El <strong>orden</strong> importa: primero se pinta la cara verde, luego los ojos blancos encima y al final las pupilas. Lo último que se dibuja queda por delante.</li>
+      </ul>
+
+<div class="pager"><a class="btn" href="index.html">← Inicio</a><a class="btn" href="dientes-conejo.html">Conejo →</a></div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Hecho por Josué Emmanuel Ramírez Cruz · HTML, CSS y JavaScript · Dibujos originales de Khan Academy adaptados con p5.js</p>
+    </div>
+  </footer>
+  <script src="js/p5.min.js"></script>
+  <script src="sketches/rana.js"></script>
+  <script src="js/lienzo.js"></script>
+</body>
+</html>

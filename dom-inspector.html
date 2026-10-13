@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inspector DOM · Dibujos con canvas y p5.js</title>
+  <meta name="description" content="Proyectos de Khan Academy adaptados a HTML, CSS y JavaScript con p5.js.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="logo" href="index.html">🎨 Dibujos con p5.js</a>
+      <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="rana.html">Rana</a></li>
+        <li><a href="dientes-conejo.html">Dientes de conejo</a></li>
+        <li><a href="cena.html">¿Qué hay de cena?</a></li>
+        <li><a href="dia-nevado.html">Día nevado</a></li>
+        <li><a href="muneco-nieve.html">Muñeco de nieve</a></li>
+        <li><a href="canvas.html">Teoría: canvas</a></li>
+        <li><a href="p5.html">Teoría: p5.js</a></li>
+        <li><a href="dom-inspector.html" aria-current="page">Inspector DOM</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <h1>Inspector del árbol DOM</h1>
+      <p>El <strong>DOM</strong> (Document Object Model) es la representación en forma de árbol de una página: el nodo raíz
+      <code>&lt;html&gt;</code> tiene dos hijos, <code>&lt;head&gt;</code> y <code>&lt;body&gt;</code>, y de ellos cuelgan los contenedores semánticos
+      (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>…) y los elementos finales
+      (<code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;canvas&gt;</code>…). Elige una página para ver su árbol.</p>
+
+      <div class="hint">Cada pestaña carga la página real del sitio y recorre su DOM ya construido, por eso en las páginas de dibujos aparece
+      el <code>&lt;canvas&gt;</code> que crea p5.js. Haz clic en ▾ / ▸ para plegar o desplegar una rama.</div>
+
+      <div class="tabs" id="tabs" role="tablist" aria-label="Páginas del sitio"></div>
+
+      <p class="leyenda">
+        <span class="node struct">&lt;html&gt; &lt;head&gt; &lt;body&gt;</span>
+        <span class="node sem">contenedor semántico</span>
+        <span class="node el">otro elemento</span>
+        <span class="node txt">"texto"</span>
+      </p>
+      <p><button class="btn" id="expandir" type="button">Expandir todo</button>
+         <button class="btn" id="contraer" type="button">Contraer todo</button></p>
+
+      <p id="info" class="muted" aria-live="polite"></p>
+      <div class="card" id="arbol" aria-label="Árbol DOM"></div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Hecho por Josué Emmanuel Ramírez Cruz · HTML, CSS y JavaScript · Dibujos originales de Khan Academy adaptados con p5.js</p>
+    </div>
+  </footer>
+  <script src="js/dom-inspector.js"></script>
+</body>
+</html>

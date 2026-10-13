@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teoría: canvas · Dibujos con canvas y p5.js</title>
+  <meta name="description" content="Proyectos de Khan Academy adaptados a HTML, CSS y JavaScript con p5.js.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="logo" href="index.html">🎨 Dibujos con p5.js</a>
+      <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="rana.html">Rana</a></li>
+        <li><a href="dientes-conejo.html">Dientes de conejo</a></li>
+        <li><a href="cena.html">¿Qué hay de cena?</a></li>
+        <li><a href="dia-nevado.html">Día nevado</a></li>
+        <li><a href="muneco-nieve.html">Muñeco de nieve</a></li>
+        <li><a href="canvas.html" aria-current="page">Teoría: canvas</a></li>
+        <li><a href="p5.html">Teoría: p5.js</a></li>
+        <li><a href="dom-inspector.html">Inspector DOM</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <h1>La etiqueta &lt;canvas&gt; y el contexto 2D</h1>
+      <p>HTML5 incorporó el elemento <code>&lt;canvas&gt;</code>, una superficie rectangular en la que JavaScript puede
+      dibujar gráficos al instante: figuras, texto, imágenes y animaciones. Es la base sobre la que trabaja p5.js.</p>
+
+      <nav class="card" aria-label="Contenido de esta página">
+        <strong>Contenido</strong>
+        <ol>
+          <li><a href="#que-es">¿Qué es?</a></li>
+          <li><a href="#sintaxis">Sintaxis y tamaño</a></li>
+          <li><a href="#contexto">Contexto de renderizado: getContext()</a></li>
+          <li><a href="#coordenadas">Sistema de coordenadas</a></li>
+          <li><a href="#api2d">API del contexto 2D</a></li>
+          <li><a href="#equivalencias">Equivalencias con p5.js</a></li>
+          <li><a href="#demo-rana">Demostración: la rana en canvas puro</a></li>
+          <li><a href="#animacion">Animación</a></li>
+          <li><a href="#buenas">Buenas prácticas</a></li>
+          <li><a href="#refs">Referencias</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="que-es">1. ¿Qué es &lt;canvas&gt;?</h2>
+      <p>Es un elemento HTML que, por sí mismo, <strong>no dibuja nada</strong>: solo reserva un área de píxeles
+      (un mapa de bits). Para pintar sobre ella se usa JavaScript y una API de dibujo. A diferencia de SVG, que guarda
+      objetos que pueden volver a seleccionarse, el canvas es un <em>modo inmediato</em>: lo que se dibuja se convierte en
+      píxeles y el navegador no recuerda las formas individuales. Si se quiere mover algo, se borra y se vuelve a dibujar.</p>
+      <p>El contenido escrito dentro de las etiquetas <code>&lt;canvas&gt;…&lt;/canvas&gt;</code> es un <strong>contenido alternativo</strong>
+      que solo se muestra en navegadores sin soporte o lo leen los lectores de pantalla.</p>
+
+      <h2 id="sintaxis">2. Sintaxis y tamaño</h2>
+<pre><code>&lt;canvas id="miLienzo" width="400" height="400"&gt;
+  Tu navegador no admite canvas. (Texto alternativo)
+&lt;/canvas&gt;</code></pre>
+      <ul>
+        <li><code>width</code> y <code>height</code> son atributos que fijan el <strong>tamaño real del bitmap</strong> en píxeles.
+        Si se omiten, el lienzo mide 300 × 150.</li>
+        <li>Darle tamaño con CSS solo <em>escala</em> la imagen y puede deformarla o verse borrosa. Por eso conviene usar los atributos.</li>
+        <li>Cambiar <code>width</code> o <code>height</code> por JavaScript borra el contenido del lienzo.</li>
+      </ul>
+
+      <h2 id="contexto">3. Contexto de renderizado: <code>getContext()</code></h2>
+      <p>Para dibujar hay que pedirle al canvas un <strong>contexto de renderizado</strong>, el objeto que ofrece los métodos de dibujo:</p>
+<pre><code>const lienzo = document.getElementById('miLienzo');
+const ctx = lienzo.getContext('2d');   // contexto 2D</code></pre>
+      <p>El argumento indica qué tipo de contexto se quiere:</p>
+      <table>
+        <thead><tr><th>Valor</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td><code>'2d'</code></td><td><code>CanvasRenderingContext2D</code>: dibujo bidimensional (formas, texto, imágenes). Es el que usan estos proyectos.</td></tr>
+          <tr><td><code>'webgl'</code> / <code>'webgl2'</code></td><td>Gráficos 3D acelerados por la GPU (basados en OpenGL ES).</td></tr>
+          <tr><td><code>'bitmaprenderer'</code></td><td>Muestra mapas de bits (<code>ImageBitmap</code>) de forma eficiente.</td></tr>
+          <tr><td><code>'webgpu'</code></td><td>Contexto de la API WebGPU, más moderna que WebGL.</td></tr>
+        </tbody>
+      </table>
+      <p>Un canvas solo puede tener <strong>un tipo de contexto</strong>: si ya se pidió <code>'2d'</code>, pedir <code>'webgl'</code>
+      sobre el mismo elemento devuelve <code>null</code>. También devuelve <code>null</code> si el navegador no soporta ese contexto,
+      por eso es útil comprobar <code>if (lienzo.getContext)</code> o que el resultado no sea nulo.</p>
+
+      <h2 id="coordenadas">4. Sistema de coordenadas</h2>
+      <p>El origen <code>(0, 0)</code> está en la <strong>esquina superior izquierda</strong>. El eje <strong>x</strong> crece hacia la derecha
+      y el eje <strong>y</strong> crece hacia <strong>abajo</strong> (al revés que en matemáticas). En un lienzo de 400 × 400,
+      el centro es el punto (200, 200). Puedes comprobarlo con la rejilla de cualquiera de las páginas de dibujos, por ejemplo en la <a href="muneco-nieve.html">del muñeco de nieve</a>.</p>
+
+      <h2 id="api2d">5. API del contexto 2D</h2>
+      <table>
+        <thead><tr><th>Grupo</th><th>Métodos y propiedades principales</th></tr></thead>
+        <tbody>
+          <tr><td>Rectángulos</td><td><code>fillRect(x, y, w, h)</code>, <code>strokeRect(...)</code>, <code>clearRect(...)</code></td></tr>
+          <tr><td>Trayectorias (paths)</td><td><code>beginPath()</code>, <code>moveTo(x, y)</code>, <code>lineTo(x, y)</code>, <code>arc(x, y, r, a0, a1)</code>, <code>ellipse(x, y, rx, ry, rot, a0, a1)</code>, <code>closePath()</code>, <code>fill()</code>, <code>stroke()</code></td></tr>
+          <tr><td>Colores y estilos</td><td><code>fillStyle</code>, <code>strokeStyle</code>, <code>lineWidth</code>, <code>globalAlpha</code>, gradientes (<code>createLinearGradient</code>)</td></tr>
+          <tr><td>Texto</td><td><code>font</code>, <code>fillText(texto, x, y)</code>, <code>strokeText(...)</code></td></tr>
+          <tr><td>Transformaciones</td><td><code>translate()</code>, <code>rotate()</code>, <code>scale()</code>, <code>save()</code>, <code>restore()</code></td></tr>
+          <tr><td>Imágenes y píxeles</td><td><code>drawImage()</code>, <code>getImageData()</code>, <code>putImageData()</code></td></tr>
+        </tbody>
+      </table>
+      <p>Ejemplo de una <strong>trayectoria</strong>: primero se describe la figura y después se rellena o se traza su contorno.</p>
+<pre><code>ctx.beginPath();          // empieza una figura nueva
+ctx.moveTo(60, 190);      // punto inicial
+ctx.lineTo(160, 40);      // línea hasta...
+ctx.lineTo(260, 190);
+ctx.closePath();          // cierra el triángulo
+ctx.fillStyle = '#2563eb';
+ctx.fill();               // rellena
+ctx.lineWidth = 4;
+ctx.strokeStyle = '#1e3a8a';
+ctx.stroke();             // dibuja el contorno</code></pre>
+      <div class="lienzo"><canvas id="demo-trayectoria" width="400" height="220" role="img" aria-label="Un triángulo azul y un arco rojo">Un triángulo azul y un arco rojo.</canvas></div>
+
+      <h2 id="equivalencias">6. Equivalencias entre p5.js y el contexto 2D</h2>
+      <p>p5.js dibuja sobre un canvas con esta misma API, así que cada comando de p5.js se puede traducir:</p>
+      <table>
+        <thead><tr><th>p5.js (Khan Academy)</th><th>Canvas 2D nativo</th></tr></thead>
+        <tbody>
+          <tr><td><code>fill(30, 204, 91)</code></td><td><code>ctx.fillStyle = 'rgb(30, 204, 91)'</code></td></tr>
+          <tr><td><code>rect(x, y, w, h)</code></td><td><code>ctx.fillRect(x, y, w, h)</code></td></tr>
+          <tr><td><code>ellipse(x, y, w, h)</code></td><td><code>ctx.beginPath(); ctx.ellipse(x, y, w/2, h/2, 0, 0, 2*Math.PI); ctx.fill();</code></td></tr>
+          <tr><td><code>line(x1, y1, x2, y2)</code></td><td><code>ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();</code></td></tr>
+          <tr><td><code>noStroke()</code></td><td>simplemente no llamar a <code>ctx.stroke()</code></td></tr>
+          <tr><td><code>background(r, g, b)</code></td><td><code>ctx.fillStyle = 'rgb(...)'; ctx.fillRect(0, 0, ancho, alto);</code></td></tr>
+        </tbody>
+      </table>
+      <p>Observa que <code>ellipse()</code> de p5.js recibe <strong>diámetros</strong> (ancho y alto) mientras que <code>ctx.ellipse()</code> recibe <strong>radios</strong>.</p>
+
+      <h2 id="demo-rana">7. Demostración: la rana en canvas puro</h2>
+      <p>Este es el mismo dibujo de la <a href="rana.html">rana</a>, pero sin p5.js: solo <code>&lt;canvas&gt;</code> y <code>getContext('2d')</code>.</p>
+      <div class="lienzo"><canvas id="demo-rana" width="400" height="400" role="img" aria-label="Rana verde dibujada con canvas 2D">Una rana verde.</canvas></div>
+<pre><code>const ctx = document.getElementById('demo-rana').getContext('2d');
+
+// función auxiliar: igual que ellipse() de p5.js (w y h son diámetros)
+function elipse(ctx, x, y, w, h) {
+  ctx.beginPath();
+  ctx.ellipse(x, y, w / 2, h / 2, 0, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+const x = 200, y = 250;
+ctx.fillStyle = 'rgb(30, 204, 91)';
+elipse(ctx, x, y, 200, 100);              // cara
+elipse(ctx, x - 50, y - 50, 40, 40);      // cuenca izquierda
+elipse(ctx, x + 50, y - 50, 40, 40);      // cuenca derecha
+ctx.fillStyle = 'white';
+elipse(ctx, x - 50, y - 50, 30, 30);      // ojo izquierdo
+elipse(ctx, x + 50, y - 50, 30, 30);      // ojo derecho
+ctx.fillStyle = 'black';
+elipse(ctx, x, y, 100, 50);               // boca
+ctx.fillRect(x - 55, y - 55, 10, 10);     // pupila izquierda
+ctx.fillRect(x + 45, y - 55, 10, 10);     // pupila derecha</code></pre>
+
+      <h2 id="animacion">8. Animación</h2>
+      <p>Para animar se repite un ciclo: <strong>borrar → actualizar posiciones → dibujar</strong>. El navegador ofrece
+      <code>requestAnimationFrame()</code>, que ejecuta una función justo antes de cada repintado (normalmente 60 veces por segundo).
+      Esto es lo que hace p5.js por dentro con su función <code>draw()</code>.</p>
+      <div class="lienzo"><canvas id="demo-animacion" width="400" height="200" role="img" aria-label="Una pelota verde rebotando">Una pelota rebotando.</canvas></div>
+      <p><button class="btn" id="btn-anim" type="button">Pausar</button></p>
+<pre><code>function frame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);  // 1. borrar
+  x += vx; y += vy;                                  // 2. actualizar
+  if (x &lt; r || x &gt; canvas.width - r) vx = -vx;       //    (rebote)
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);                  // 3. dibujar
+  ctx.fill();
+  requestAnimationFrame(frame);                      // 4. repetir
+}
+frame();</code></pre>
+
+      <h2 id="buenas">9. Buenas prácticas</h2>
+      <ul>
+        <li><strong>Accesibilidad:</strong> añade contenido alternativo dentro de <code>&lt;canvas&gt;</code>, y <code>role="img"</code> con <code>aria-label</code> para describir el dibujo.</li>
+        <li><strong>Nitidez en pantallas de alta densidad:</strong> usa <code>window.devicePixelRatio</code> para multiplicar el tamaño real del bitmap y escalar el contexto.</li>
+        <li><strong>Usa <code>save()</code> y <code>restore()</code></strong> para no arrastrar estilos o transformaciones a otros dibujos (p5.js hace lo mismo con <code>push()</code> y <code>pop()</code>).</li>
+        <li><strong>Un solo contexto por canvas</strong> y pide el contexto una vez, guardándolo en una variable.</li>
+      </ul>
+
+      <h2 id="refs">10. Referencias</h2>
+      <ul>
+        <li><a href="https://developer.mozilla.org/es/docs/Web/API/Canvas_API" target="_blank" rel="noopener">MDN: Canvas API</a></li>
+        <li><a href="https://developer.mozilla.org/es/docs/Web/API/Canvas_API/Tutorial" target="_blank" rel="noopener">MDN: Tutorial de Canvas</a></li>
+        <li><a href="https://developer.mozilla.org/es/docs/Web/API/CanvasRenderingContext2D" target="_blank" rel="noopener">MDN: CanvasRenderingContext2D</a></li>
+      </ul>
+      <div class="pager"><a class="btn" href="muneco-nieve.html">← Muñeco</a><a class="btn" href="p5.html">Teoría: p5.js →</a></div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Hecho por Josué Emmanuel Ramírez Cruz · HTML, CSS y JavaScript · Dibujos originales de Khan Academy adaptados con p5.js</p>
+    </div>
+  </footer>
+  <script src="js/canvas-demo.js"></script>
+</body>
+</html>

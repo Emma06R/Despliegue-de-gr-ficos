@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teoría: p5.js · Dibujos con canvas y p5.js</title>
+  <meta name="description" content="Proyectos de Khan Academy adaptados a HTML, CSS y JavaScript con p5.js.">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="logo" href="index.html">🎨 Dibujos con p5.js</a>
+      <nav aria-label="Navegación principal">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="rana.html">Rana</a></li>
+        <li><a href="dientes-conejo.html">Dientes de conejo</a></li>
+        <li><a href="cena.html">¿Qué hay de cena?</a></li>
+        <li><a href="dia-nevado.html">Día nevado</a></li>
+        <li><a href="muneco-nieve.html">Muñeco de nieve</a></li>
+        <li><a href="canvas.html">Teoría: canvas</a></li>
+        <li><a href="p5.html" aria-current="page">Teoría: p5.js</a></li>
+        <li><a href="dom-inspector.html">Inspector DOM</a></li>
+      </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <h1>Fundamentos de p5.js</h1>
+      <p><strong>p5.js</strong> es una librería de JavaScript de código abierto para programación creativa. Es la versión web de
+      <em>Processing</em> (creado por Casey Reas y Ben Fry) y la inició Lauren Lee McCarthy en 2013; hoy la mantiene la
+      Processing Foundation. Su objetivo es que dibujar, animar e interactuar con el navegador sea fácil para principiantes,
+      artistas y estudiantes.</p>
+
+      <nav class="card" aria-label="Contenido de esta página">
+        <strong>Contenido</strong>
+        <ol>
+          <li><a href="#incluir">Cómo se incluye</a></li>
+          <li><a href="#estructura">setup() y draw()</a></li>
+          <li><a href="#modos">Modo global y modo instancia</a></li>
+          <li><a href="#coord">Lienzo y coordenadas</a></li>
+          <li><a href="#formas">Formas primitivas</a></li>
+          <li><a href="#color">Color y estilo</a></li>
+          <li><a href="#variables">Variables</a></li>
+          <li><a href="#interaccion">Interacción y animación</a></li>
+          <li><a href="#canvas">Relación con &lt;canvas&gt;</a></li>
+          <li><a href="#adaptacion">De Khan Academy a una página web</a></li>
+          <li><a href="#demo">Demostración interactiva</a></li>
+          <li><a href="#refs">Referencias</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="incluir">1. Cómo se incluye en una página</h2>
+      <p>Basta con cargar el archivo de la librería antes de tu código. En este sitio se usa una copia local (<code>js/p5.min.js</code>, versión 1.9.4),
+      de modo que funciona aunque no haya conexión a una CDN:</p>
+<pre><code>&lt;script src="js/p5.min.js"&gt;&lt;/script&gt;   &lt;!-- 1. la librería --&gt;
+&lt;script src="sketches/rana.js"&gt;&lt;/script&gt; &lt;!-- 2. tu dibujo --&gt;</code></pre>
+
+      <h2 id="estructura">2. La estructura: <code>setup()</code> y <code>draw()</code></h2>
+      <ul>
+        <li><code>setup()</code> se ejecuta <strong>una sola vez</strong> al empezar: aquí se crea el lienzo con <code>createCanvas(ancho, alto)</code>.</li>
+        <li><code>draw()</code> se ejecuta <strong>en bucle</strong>, por defecto unas 60 veces por segundo, y es donde se dibuja y se anima.</li>
+        <li><code>noLoop()</code> detiene ese bucle (se dibuja una sola vez); <code>loop()</code> lo reanuda y <code>redraw()</code> fuerza un nuevo dibujo.</li>
+      </ul>
+<pre><code>function setup() {
+  createCanvas(400, 400);
+  noLoop();                 // dibujo estático
+}
+
+function draw() {
+  background(255);
+  ellipse(200, 200, 100, 100);
+}</code></pre>
+      <p>Los cinco dibujos de este sitio son estáticos, así que usan <code>noLoop()</code> (ver <code>js/lienzo.js</code>).</p>
+
+      <h2 id="modos">3. Modo global y modo instancia</h2>
+      <p>En <strong>modo global</strong> (el predeterminado) las funciones <code>setup</code>, <code>draw</code>, <code>ellipse</code>… son globales y se escriben directamente.
+      En <strong>modo instancia</strong> todo cuelga de un objeto <code>p</code>, lo que permite tener varios sketches en la misma página sin que se mezclen:</p>
+<pre><code>new p5(function (p) {
+  p.setup = function () { p.createCanvas(400, 240); };
+  p.draw  = function () { p.background(240); p.ellipse(p.mouseX, p.mouseY, 50, 50); };
+}, 'demo-p5');   // id del contenedor</code></pre>
+
+      <h2 id="coord">4. Lienzo y coordenadas</h2>
+      <p><code>createCanvas(400, 400)</code> crea un <code>&lt;canvas&gt;</code> de 400 × 400 píxeles y lo agrega a la página
+      (con <code>.parent('lienzo')</code> se elige en qué contenedor). Las variables <code>width</code> y <code>height</code> guardan su tamaño.
+      El origen (0, 0) está en la esquina superior izquierda y <strong>y crece hacia abajo</strong>.</p>
+
+      <h2 id="formas">5. Formas primitivas</h2>
+      <table>
+        <thead><tr><th>Comando</th><th>Descripción</th><th>Dónde se usa</th></tr></thead>
+        <tbody>
+          <tr><td><code>point(x, y)</code></td><td>Un punto.</td><td>—</td></tr>
+          <tr><td><code>line(x1, y1, x2, y2)</code></td><td>Segmento entre dos puntos.</td><td><a href="dientes-conejo.html">Conejo</a>, <a href="muneco-nieve.html">Muñeco</a></td></tr>
+          <tr><td><code>rect(x, y, w, h)</code></td><td>Rectángulo; (x, y) es la esquina superior izquierda.</td><td>Rana, cena, día nevado…</td></tr>
+          <tr><td><code>ellipse(x, y, w, h)</code></td><td>Elipse; (x, y) es el centro y w, h son diámetros.</td><td>Todos los dibujos</td></tr>
+          <tr><td><code>circle(x, y, d)</code></td><td>Círculo de diámetro d.</td><td>—</td></tr>
+          <tr><td><code>triangle(...)</code>, <code>quad(...)</code>, <code>arc(...)</code></td><td>Triángulo, cuadrilátero, arco.</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="color">6. Color y estilo</h2>
+      <ul>
+        <li><code>background(r, g, b)</code>: pinta todo el fondo. Los valores van de 0 a 255 (modo RGB).</li>
+        <li><code>fill(r, g, b)</code> / <code>noFill()</code>: color de relleno de las formas siguientes, o sin relleno.</li>
+        <li><code>stroke(r, g, b)</code> / <code>noStroke()</code>: color del contorno, o sin contorno. <code>strokeWeight(n)</code> define su grosor.</li>
+        <li>Con un solo número se obtiene un gris: <code>fill(200)</code>. Un cuarto valor es la transparencia (alfa).</li>
+      </ul>
+      <p>p5.js funciona como una <strong>máquina de estados</strong>: <code>fill()</code> cambia el color y se mantiene hasta que se vuelva a cambiar. Por eso el orden de las líneas importa. Lo último en dibujarse queda por encima (como pintar con capas).</p>
+
+      <h2 id="variables">7. Variables</h2>
+      <p>Una variable guarda un valor con nombre para reutilizarlo. En el proyecto de la <a href="rana.html">rana</a>, <code>x</code> e <code>y</code> son el centro de la cara y todas las demás formas se calculan a partir de ellas (<code>x - 50</code>); en el <a href="dientes-conejo.html">conejo</a>, <code>eyeSize</code> controla el tamaño de los dos ojos. En JavaScript moderno se prefieren <code>let</code> y <code>const</code>, aunque <code>var</code> sigue funcionando.</p>
+
+      <h2 id="interaccion">8. Interacción y animación</h2>
+      <p>p5.js ofrece variables del sistema y eventos listos para usar:</p>
+      <ul>
+        <li><code>mouseX</code>, <code>mouseY</code>: posición del ratón; <code>mousePressed()</code>, <code>keyPressed()</code>: eventos.</li>
+        <li><code>frameCount</code>: número de fotogramas dibujados; sirve para animar con <code>sin()</code> o contadores.</li>
+        <li><code>map(valor, a, b, c, d)</code>: convierte un valor de un rango a otro.</li>
+      </ul>
+      <p>Las páginas de dibujos incluyen una interacción sencilla: <code>mouseMoved()</code> muestra las coordenadas del ratón sobre el lienzo, y una casilla para mostrar una rejilla.</p>
+
+      <h2 id="canvas">9. Relación con &lt;canvas&gt;</h2>
+      <p>p5.js no sustituye al canvas: lo <strong>envuelve</strong>. Internamente crea un <code>&lt;canvas&gt;</code> y llama a la API del contexto 2D descrita en la
+      <a href="canvas.html">sección de canvas</a>. Esto se puede ver con el <a href="dom-inspector.html">inspector del DOM</a>, donde el canvas aparece dentro del contenedor del dibujo. Además, la variable <code>drawingContext</code> da acceso directo al contexto 2D nativo:</p>
+<pre><code>function draw() {
+  drawingContext.shadowBlur = 20;       // función del contexto 2D, no de p5
+  drawingContext.shadowColor = 'gray';
+  ellipse(200, 200, 100, 100);
+}</code></pre>
+
+      <h2 id="adaptacion">10. Cómo se adaptó el código de Khan Academy</h2>
+      <p>Khan Academy usa <em>ProcessingJS</em>, que tiene casi los mismos comandos que p5.js. Para llevar los programas a una página web propia solo hizo falta:</p>
+      <ol>
+        <li>Poner las instrucciones del dibujo dentro de una función (<code>dibujo()</code>), que se llama desde <code>draw()</code>.</li>
+        <li>Crear el lienzo de 400 × 400 con <code>createCanvas()</code>, porque en Khan Academy ya viene creado.</li>
+        <li>Pintar un fondo blanco con <code>background(255)</code> antes del dibujo: en Khan Academy el fondo es blanco, pero en p5.js es gris por defecto.</li>
+        <li>Cargar <code>p5.min.js</code> en un <code>&lt;script&gt;</code> y mostrar el lienzo dentro de un <code>&lt;div id="lienzo"&gt;</code>.</li>
+      </ol>
+      <p>Los comandos <code>ellipse</code>, <code>rect</code>, <code>line</code>, <code>fill</code>, <code>noStroke</code>, <code>noFill</code> y <code>background</code> quedaron exactamente igual.</p>
+
+      <h2 id="demo">11. Demostración interactiva</h2>
+      <p>Mueve el ratón sobre el lienzo: el círculo lo sigue y cambia de color; el círculo verde pulsa con <code>frameCount</code>; haz clic para dejar puntos rojos.</p>
+      <div class="lienzo" id="demo-p5" role="img" aria-label="Demostración interactiva de p5.js"></div>
+
+      <h2 id="refs">12. Referencias</h2>
+      <ul>
+        <li><a href="https://p5js.org/" target="_blank" rel="noopener">p5js.org</a></li>
+        <li><a href="https://p5js.org/reference/" target="_blank" rel="noopener">Referencia oficial de p5.js</a></li>
+        <li><a href="https://p5js.org/get-started/" target="_blank" rel="noopener">Primeros pasos con p5.js</a></li>
+      </ul>
+      <div class="pager"><a class="btn" href="canvas.html">← Teoría: canvas</a><a class="btn" href="dom-inspector.html">Inspector DOM →</a></div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Hecho por Josué Emmanuel Ramírez Cruz · HTML, CSS y JavaScript · Dibujos originales de Khan Academy adaptados con p5.js</p>
+    </div>
+  </footer>
+  <script src="js/p5.min.js"></script>
+  <script src="js/p5-demo.js"></script>
+</body>
+</html>
